@@ -1,4 +1,4 @@
-function main()
+function main05()
 {
     var width = 500;
     var height = 500;
