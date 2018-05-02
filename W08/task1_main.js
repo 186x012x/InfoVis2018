@@ -21,27 +21,88 @@ function main()
     renderer.setSize( width, height );
     document.body.appendChild( renderer.domElement );
 
-    var geometry = new THREE.TorusKnotGeometry( 1, 0.3, 100, 20 );
 
-    var material = new THREE.ShaderMaterial({
-        vertexColors: THREE.VertexColors,
-        vertexShader: document.getElementById('gouraud.vert').text,
-        fragmentShader: document.getElementById('gouraud.frag').text,
-        uniforms: {
-           light_position: { type: 'v3', value: light.position }
-        }
-    });
 
-    var torus_knot = new THREE.Mesh( geometry, material );
-    scene.add( torus_knot );
+    var vertices = [
+        [ -1,  1, 0 ], // 0
+        [ -1, -1, 0 ], // 1
+        [  1, -1, 0 ]  // 2
+    ];
+
+    var faces = [
+        [ 0, 1, 2 ], // f0
+    ];
+
+    var scalars = [
+        0.1,   // S0
+        0.2, // S1
+        0.8  // S2
+    ];
+
+    // Create color map
+    var cmap = [];
+    for ( var i = 0; i < 256; i++ )
+    {
+        var S = i / 255.0; // [0,1]
+        var R = Math.max( Math.cos( ( S - 1.0 ) * Math.PI ), 0.0 );
+        var G = Math.max( Math.cos( ( S - 0.5 ) * Math.PI ), 0.0 );
+        var B = Math.max( Math.cos( S * Math.PI ), 0.0 );
+        var color = new THREE.Color( R, G, B );
+        cmap.push( [ S, '0x' + color.getHexString() ] );
+    }
+
+    // Draw color map
+    var lut = new THREE.Lut( 'rainbow', cmap.length );
+    lut.addColorMap( 'mycolormap', cmap );
+    lut.changeColorMap( 'mycolormap' );
+    scene.add( lut.setLegendOn( {
+        'layout':'horizontal',
+        'position': { 'x': 0.6, 'y': -1.1, 'z': 2 },
+        'dimensions': { 'width': 0.15, 'height': 1.2 }
+    } ) );
+
+    var geometry = new THREE.Geometry();
+    var material = new THREE.MeshBasicMaterial();
+
+    var nvertices = vertices.length;
+    for ( var i = 0; i < nvertices; i++ )
+    {
+        var vertex = new THREE.Vector3().fromArray( vertices[i] );
+        geometry.vertices.push( vertex );
+    }
+
+    var nfaces = faces.length;
+    for ( var i = 0; i < nfaces; i++ )
+    {
+        var id = faces[i];
+        var face = new THREE.Face3( id[0], id[1], id[2] );
+        geometry.faces.push( face );
+    }
+
+    // Assign colors for each vertex
+    material.vertexColors = THREE.VertexColors;
+    for ( var i = 0; i < nfaces; i++ )
+    {
+        var id = faces[i];
+        var S0 = Math.round((scalars[ id[0] ] - 0.1) * (255/0.7));
+        var S1 = Math.round((scalars[ id[1] ] - 0.1) * (255/0.7));
+        var S2 = Math.round((scalars[ id[2] ] - 0.1) * (255/0.7));
+        var C0 = new THREE.Color().setHex( cmap[ S0 ][1] );
+        var C1 = new THREE.Color().setHex( cmap[ S1 ][1] );
+        var C2 = new THREE.Color().setHex( cmap[ S2 ][1] );
+        geometry.faces[i].vertexColors.push( C0 );
+        geometry.faces[i].vertexColors.push( C1 );
+        geometry.faces[i].vertexColors.push( C2 );
+    }
+
+    var triangle = new THREE.Mesh( geometry, material );
+    scene.add( triangle );
 
     loop();
 
     function loop()
     {
         requestAnimationFrame( loop );
-        torus_knot.rotation.x += 0.01;
-        torus_knot.rotation.y += 0.01;
         renderer.render( scene, camera );
     }
 }
