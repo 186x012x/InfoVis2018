@@ -100,7 +100,11 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
             }
         break;
         case 3:
-            geometry = new THREE.TorusKnotGeometry( 11, 3.7, 10, 7, 4, 3 );
+           ctx.lineWidth = 5;
+			ctx.beginPath();
+				ctx.strokeRect(20, 15, 100, 100);
+			ctx.stroke();
+
         break; 
         case 2:
             geometry = new THREE.BoxGeometry( 1, 1, 1 );
