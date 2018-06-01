@@ -102,7 +102,7 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
         case 3:
              
             
-            geometry = new THREE.ParametricGeometry(100, 100, 100);
+            geometry = new THREE.ParametricGeometry(1,1,1,1, 1, 1);
         break; 
         case 2:
            
