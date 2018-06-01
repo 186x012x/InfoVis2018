@@ -100,9 +100,22 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
             }
         break;
         case 3:
-            geometry = new THREE.TorusKnotGeometry( 100, 30, 20, 8, 2, 5);
+            
+            geometry = new THREE.ParametricGeometry(func, 100, 100, true);
         break; 
         case 2:
+            var func = function(u, v) {
+        u *= Math.PI;
+        v *= 2 * Math.PI;
+
+        var x = 100 * u - 100;
+        var y = 100 * Math.sin(u) * Math.cos(v);
+        var z = 100 * Math.cos(u);
+        x -= Math.random() * 10;
+        y -= Math.random() * 10;
+
+        return new THREE.Vector3(x, y, z);
+      };
             geometry = new THREE.BoxGeometry( 1, 1, 1 );
         break;
     }
