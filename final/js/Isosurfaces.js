@@ -100,11 +100,7 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
             }
         break;
         case 3:
-            
-            geometry = new THREE.ParametricGeometry(func, 100, 100, true);
-        break; 
-        case 2:
-            var func = function(u, v) {
+             var func = function(u, v) {
         u *= Math.PI;
         v *= 2 * Math.PI;
 
@@ -116,6 +112,11 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
 
         return new THREE.Vector3(x, y, z);
       };
+            
+            geometry = new THREE.ParametricGeometry(func, 100, 100, true);
+        break; 
+        case 2:
+           
             geometry = new THREE.BoxGeometry( 1, 1, 1 );
         break;
     }
