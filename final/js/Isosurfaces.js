@@ -100,7 +100,7 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
             }
         break;
         case 3:
-            geometry = new THREE.TorusKnotGeometry( 100, 30, 20, 8, 2, 5, 4 );
+            geometry = new THREE.TorusKnotGeometry( 100, 30, 20, 8, 2, 5);
         break; 
         case 2:
             geometry = new THREE.BoxGeometry( 1, 1, 1 );
