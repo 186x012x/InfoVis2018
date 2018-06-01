@@ -100,18 +100,7 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
             }
         break;
         case 3:
-             var func = function(u, v) {
-        u *= Math.PI;
-        v *= 2 * Math.PI;
-
-        var x = 100 * u - 100;
-        var y = 100 * Math.sin(u) * Math.cos(v);
-        var z = 100 * Math.cos(u);
-        x -= Math.random() * 10;
-        y -= Math.random() * 10;
-
-        return new THREE.Vector3(x, y, z);
-      };
+             
             
             geometry = new THREE.ParametricGeometry(func, 100, 100, true);
         break; 
@@ -172,4 +161,16 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
     {
         return new THREE.Vector3().addVectors( v0, v1 ).divideScalar( 2 );
     }
+    var func = function(u, v) {
+        u *= Math.PI;
+        v *= 2 * Math.PI;
+
+        var x = 100 * u - 100;
+        var y = 100 * Math.sin(u) * Math.cos(v);
+        var z = 100 * Math.cos(u);
+        x -= Math.random() * 10;
+        y -= Math.random() * 10;
+
+        return new THREE.Vector3(x, y, z);
+      }
 }
