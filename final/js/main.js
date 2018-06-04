@@ -221,7 +221,7 @@ $( function() {
                             $('#lbl').hide();
                             currentShape = 1;
                             break;
-                            case "Cube": 
+                            case "Pentagon": 
                             $('#colormaps1').hide();
                             $('#trf').hide();
                             $('#colorinput').show();
