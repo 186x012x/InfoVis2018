@@ -103,7 +103,7 @@ function Isosurfaces( volume, isovalue, cmap, mat, shape )
             geometry = new THREE.TorusKnotGeometry( 11, 3.7, 10, 7, 4, 3 );
         break; 
         case 2:
-           geometry = new THREE.CircleGeometry( 2, 5 );
+           geometry = new THREE.CircleGeometry( 2, 4 );
         break;
     }
 
